@@ -68,5 +68,5 @@ if __name__ == "__main__":
         time.sleep(0.8)
 ```
 <p align="center">
-  <img src="assets/show_data_animation.gif" alt="demonstration gif" width="100%">
+  <img src="assets/data-animation.gif" alt="demonstration gif" width="100%">
 </p>
