@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kauan Horvath | Portfolio</title>
     <style>
+        /* Estilos Globais */
         body { 
             background-color: #0d1117; 
             color: #c9d1d9; 
@@ -20,23 +21,92 @@
             margin: 0 auto;
         }
 
-        img { 
+        /* Banner Principal */
+        img.banner { 
             width: 100%; 
             height: auto;
             border-radius: 8px; 
             border: 1px solid #30363d; 
+            margin-bottom: 40px;
         }
 
+        /* Título Principal */
         h1 { 
             color: #f0f6fc; 
-            margin-top: 30px; 
+            margin-top: 0;
+            margin-bottom: 40px;
+            font-size: 2.5em;
         }
 
-        p { 
-            margin-bottom: 25px; 
+        /* Nova Seção de Perfil no Centro */
+        .profile-hub {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        a { 
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid #30363d;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .profile-bio {
+            max-width: 600px;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            color: #8b949e;
+        }
+
+        /* Botões de Ação para os Projetos */
+        .project-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #238636; /* Verde GitHub */
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #2ea043;
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #21262d;
+            color: #c9d1d9;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #30363d;
+            font-weight: bold;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: #30363d;
+            border-color: #8b949e;
+        }
+
+        /* Estilos de Link Antigos (não mais usados no centro, mas mantidos por segurança) */
+        a.legacy-link { 
             color: #58a6ff; 
             text-decoration: none; 
             border-bottom: 1px solid transparent; 
@@ -44,13 +114,13 @@
             font-weight: bold;
         }
 
-        a:hover { 
+        a.legacy-link:hover { 
             border-bottom: 1px solid #58a6ff; 
         }
 
+        /* Iframe do Spotify */
         iframe {
             border-radius: 12px;
-            margin-top: 20px;
             border: none;
         }
     </style>
@@ -58,17 +128,30 @@
 <body>
 
     <div class="container">
-        <img src="assets/git-banner.png" alt="Banner Kauan Horvath - Presentation Designer">
+        <img src="assets/git-banner.png" alt="Banner Kauan Horvath - Presentation Designer" class="banner">
         
         <h1>Bem-vindo ao meu Laboratório de Python</h1>
         
-        <p>Sou <strong>Presentation Designer</strong> focado em automação e storytelling visual.</p>
-        
-        <p>Explore meus projetos: 
-            <a href="https://github.com/kauan-horvath/turning-chaos-into-code" target="_blank">
-                Turning Chaos into Code
-            </a>
-        </p>
+        <div class="profile-hub">
+            <img src="assets/profile-github.png" alt="Foto de Perfil Kauan Horvath" class="profile-pic">
+            
+            <div class="profile-bio">
+                <p>Olá, eu sou o <strong>Kauan Horvath</strong>.</p>
+                <p>Sou um <strong>Presentation Designer</strong> focado em transformar dados e processos complexos em histórias visuais claras e automações eficientes com Python.</p>
+            </div>
+            
+            <div class="project-links">
+                <a href="https://github.com/kauan-horvath/turning-chaos-into-code" target="_blank" class="btn-primary">
+                    <svg height="20" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="20" data-view-component="true" style="vertical-align: middle; margin-right: 8px; fill: white;">
+                        <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+                    </svg>
+                    Explore: Turning Chaos into Code
+                </a>
+                <a href="https://github.com/kauan-horvath" target="_blank" class="btn-secondary">
+                    Ver meu Perfil Completo no GitHub
+                </a>
+            </div>
+        </div>
         
         <iframe 
             src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" 
