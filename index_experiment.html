@@ -16,13 +16,12 @@
             margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
 
-        /* Container que limita a largura do conteúdo e dos Widgets */
         .container { 
             max-width: 900px; 
             width: 95%; 
             padding: 40px 0; 
-            position: relative; /* Necessário para os widgets nascerem aqui dentro */
-            margin-bottom: 100px;
+            position: relative; 
+            margin-bottom: 150px;
         }
 
         .banner-wrapper { width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin-bottom: -60px; z-index: 1; position: relative; }
@@ -47,23 +46,28 @@
         .btn-primary { flex: 7; background-color: var(--accent); color: white; }
         .btn-secondary { flex: 3; background-color: #21262d; border: 1px solid var(--border); color: var(--text-main); }
 
-        /* --- WIDGETS NASCENDO DENTRO DO LIMITE --- */
-        .widget-area {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-top: 10px;
-        }
-
+        /* --- WIDGETS --- */
         .draggable-wrapper {
-            position: absolute; /* Agora eles nascem em relação ao .container */
+            position: absolute;
             z-index: 1000;
             touch-action: none;
         }
 
-        /* Posições iniciais dentro dos 900px */
-        #drag-spotify { left: 0; }
+        #drag-spotify { 
+            left: 0; 
+            width: 300px; 
+            height: 152px; 
+            min-height: 80px;
+            min-width: 250px;
+            background: #1c2128; 
+            border-radius: 12px; 
+            border: 1px solid var(--border); 
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            resize: both;
+        }
+
         #drag-concierge { right: 0; width: 60px; }
 
         .ai-concierge-btn {
@@ -73,36 +77,39 @@
         }
 
         .chat-window {
-            position: fixed; bottom: 100px; right: 30px;
+            position: absolute;
+            bottom: 80px; 
+            right: 0;
             width: 350px; height: 450px;
             background: var(--card-bg); border: 1px solid var(--border);
             border-radius: 12px; display: none; flex-direction: column;
-            z-index: 1001; box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden;
         }
 
         .chat-header { background: #1c2128; padding: 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
         .messages-container { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .message { padding: 10px; border-radius: 8px; font-size: 0.9em; max-width: 80%; }
+        .message { padding: 10px; border-radius: 8px; font-size: 0.9em; max-width: 80%; line-height: 1.4; }
         .ai-msg { background: #21262d; color: var(--text-main); align-self: flex-start; }
+        .user-msg { background: var(--accent); color: white; align-self: flex-end; }
         .chat-input-area { padding: 15px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
         .chat-input-area input { flex: 1; background: #0d1117; border: 1px solid var(--border); color: white; padding: 8px; border-radius: 4px; outline: none; }
 
         .drag-handle {
-            height: 12px; background: #30363d; cursor: move; 
+            height: 20px; background: #30363d; cursor: move; 
             display: flex; align-items: center; justify-content: center;
-            font-size: 8px; color: var(--text-sub);
+            font-size: 10px; color: var(--text-sub);
+            flex-shrink: 0;
+            user-select: none;
         }
     </style>
 </head>
 <body>
 
     <div class="container" id="main-container">
-        <!-- Banner -->
         <div class="banner-wrapper">
             <img src="https://raw.githubusercontent.com/kauan-horvath/kauan-horvath/main/assets/turning-chaos-title-2.gif" class="banner-img" alt="Banner">
         </div>
 
-        <!-- Perfil -->
         <main class="profile-hub">
             <img src="assets/profile-github.png" alt="Profile" class="profile-pic">
             <div class="profile-content">
@@ -120,36 +127,32 @@
             </div>
         </main>
 
-        <!-- Área onde os Widgets "nascem" alinhados -->
         <div class="widget-area">
-            <!-- Spotify -->
-            <div id="drag-spotify" class="draggable-wrapper" style="background: #1c2128; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; width: 300px;">
-                <div class="drag-handle">⠿</div>
-                <iframe src="https://open.spotify.com/embed/playlist/679wCT6dVMDBxrYa5NcrXL" width="100%" height="80" frameBorder="0" allow="encrypted-media"></iframe>
+            <div id="drag-spotify" class="draggable-wrapper">
+                <div class="drag-handle">⠿ MOVER | ARRASTE O CANTO PARA AMPLIAR ⠿</div>
+                <iframe src="https://open.spotify.com/embed/playlist/679wCT6dVMDBxrYa5NcrXL?utm_source=generator&theme=0" width="100%" height="100%" frameBorder="0" allow="encrypted-media" style="flex-grow: 1; border: none;"></iframe>
             </div>
 
-            <!-- Concierge -->
             <div id="drag-concierge" class="draggable-wrapper">
-                <div class="drag-handle" style="border-radius: 10px 10px 0 0; height: 8px;"></div>
+                <div class="chat-window" id="chat-ui">
+                    <div class="chat-header">
+                        <span style="font-size: 0.8em; font-weight: bold;">CONCIERGE IA</span>
+                        <button onclick="toggleChat()" style="background:none; border:none; color:white; cursor:pointer;">✕</button>
+                    </div>
+                    <div class="messages-container" id="messages">
+                        <div class="message ai-msg">Olá! Sou o concierge do Kauan. Como posso ajudar?</div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="user-input" placeholder="Pergunte algo..." onkeypress="if(event.key === 'Enter') sendMessage()">
+                        <button onclick="sendMessage()" style="background:var(--accent); border:none; color:white; border-radius:4px; padding: 5px 10px; cursor:pointer;">></button>
+                    </div>
+                </div>
+
+                <div class="drag-handle" style="border-radius: 10px 10px 0 0; height: 10px;">⠿</div>
                 <button class="ai-concierge-btn" id="open-chat">
                     <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M12 2L14.5 9L22 11.5L14.5 14L12 21L9.5 14L2 11.5L9.5 9L12 2Z"/></svg>
                 </button>
             </div>
-        </div>
-    </div>
-
-    <!-- Janela de Chat (Mantida fixa à direita) -->
-    <div class="chat-window" id="chat-ui">
-        <div class="chat-header">
-            <span style="font-size: 0.8em; font-weight: bold;">CONCIERGE IA</span>
-            <button onclick="toggleChat()" style="background:none; border:none; color:white; cursor:pointer;">✕</button>
-        </div>
-        <div class="messages-container" id="messages">
-            <div class="message ai-msg">Olá! Sou o concierge do Kauan. Como posso ajudar?</div>
-        </div>
-        <div class="chat-input-area">
-            <input type="text" placeholder="Pergunte algo...">
-            <button style="background:var(--accent); border:none; color:white; border-radius:4px; padding: 5px 10px; cursor:pointer;">></button>
         </div>
     </div>
 
@@ -160,12 +163,47 @@
         }
         document.getElementById('open-chat').addEventListener('click', toggleChat);
 
+        function appendMessage(sender, text) {
+            const container = document.getElementById('messages');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${sender}-msg`;
+            msgDiv.innerText = text;
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            input.value = '';
+            appendMessage('user', message);
+
+            try {
+                const response = await fetch('https://turning-chaos-into-code.onrender.com/chat', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({message: message})
+                });
+                
+                const data = await response.json();
+                appendMessage('ai', data.response);
+            } catch (error) {
+                appendMessage('ai', "Ops! O cérebro está offline. Verifique o Render.");
+                console.error(error);
+            }
+        }
+
         function makeDraggable(el) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            const handle = el.querySelector('.drag-handle') || el;
+            const handle = el.querySelector('.drag-handle');
+            
             handle.onmousedown = dragMouseDown;
 
             function dragMouseDown(e) {
+                const rect = el.getBoundingClientRect();
+                if (e.clientX > rect.right - 25 && e.clientY > rect.bottom - 25) return;
                 e.preventDefault();
                 pos3 = e.clientX;
                 pos4 = e.clientY;
@@ -179,11 +217,10 @@
                 pos2 = pos4 - e.clientY;
                 pos3 = e.clientX;
                 pos4 = e.clientY;
-                
-                // Agora ele se move livremente usando coordenadas absolutas da página
                 el.style.top = (el.offsetTop - pos2) + "px";
                 el.style.left = (el.offsetLeft - pos1) + "px";
                 el.style.right = "auto";
+                el.style.bottom = "auto";
             }
 
             function closeDragElement() {
